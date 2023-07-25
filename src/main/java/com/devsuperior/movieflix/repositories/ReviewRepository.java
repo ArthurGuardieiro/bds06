@@ -1,18 +1,20 @@
 package com.devsuperior.movieflix.repositories;
 
 
-import com.devsuperior.movieflix.entities.Genre;
 import com.devsuperior.movieflix.entities.Movie;
+import com.devsuperior.movieflix.entities.Review;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface MovieRepository extends JpaRepository<Movie, Long> {
+import java.util.List;
 
-    @Query("SELECT obj FROM Movie obj WHERE (COALESCE(:genreId) IS NULL  OR obj.genre.id = :genreId) ")
-    Page<Movie> findByGenre(Long genreId, Pageable pageable);
+@Repository
+public interface ReviewRepository extends JpaRepository<Review, Long> {
+
+    @Query("SELECT obj FROM Review obj WHERE obj.movie.id = :movieId ")
+    List<Review> findAllByMovieId(Long movieId);
 
 }
